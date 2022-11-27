@@ -1,11 +1,10 @@
 FROM python:3.10.6-slim-buster
 
-WORKDIR .
-COPY . .
-# ADD  docker-entrypoint.sh  docker-entrypoint.sh
-RUN pip3 install -r requirements.txt
-RUN chmod 777 docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
+WORKDIR /app
+COPY . /app
+RUN pip3 install -r /app/requirements.txt
+RUN chmod 777 /app/docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 
-CMD ["python3", "bot.py"]
+CMD ["python3", "/app/bot.py"]
 

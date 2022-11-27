@@ -1,8 +1,9 @@
 #!/bin/sh
 
-\cp -r ./sample_config.py ./config.py
+set -e 
 
-$fileName="./config.py"
+\cp -f sample_config.py config.py
+fileName="/app/config.py"
 
 # 非空判断
 if [ ! -z "$BOT_TOKEN" ];then
@@ -93,4 +94,4 @@ if [ ! -z "$PROCESS_MAX_TIMEOUT" ];then
     sed -i "s/$OldStr/$NewStr/g" $fileName
 fi
 
-exec "$@"
+#exec  " $@ "
