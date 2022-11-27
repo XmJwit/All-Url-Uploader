@@ -35,4 +35,5 @@ jobs:  # workflow中的job
           # 配置dockerhub的认证，在Github项目主页 【Settings】 -> 【Secrets】 添加对应变量 DOCKERHUB_USERNAME 和 DOCKERHUB_TOKEN
           username: ${{ secrets.DOCKERHUB_USERNAME }}  
           password: ${{ secrets.DOCKERHUB_TOKEN }}  # https://hub.docker.com/settings/security 在这儿创建 token
+          registry: docker.io
 
