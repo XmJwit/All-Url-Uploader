@@ -45,6 +45,6 @@ jobs:  # workflow中的job
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: $(date +%s)
           labels: ${{ steps.meta.outputs.labels }}
 
