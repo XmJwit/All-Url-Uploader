@@ -1,0 +1,50 @@
+name: Publish Docker image 
+
+on:
+  push:
+    branches:  
+      - "main"  # main 分支有push时触发此 workflow
+    tags:       # tag更新时触发此workflow
+      - '*'
+  pull_request:
+    branches: [ "main" ]
+
+# jobs:
+#   build:
+#     name: Push Docker image to Docker Hub
+#     runs-on: ubuntu-latest
+    
+#     steps:  # 一个job由一个或多个step组成
+#     - uses: actions/checkout@v3
+#     - name: Build the Docker image
+#       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+jobs:  # workflow中的job
+
+  push_to_registry:  # job的名字
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest   # job运行的基础环境
+
+    steps:  # 一个job由一个或多个step组成
+      - name: Check out the repo
+        uses: actions/checkout@v3   # 官方的action，获取代码
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2.1.0  # 三方的action操作， 执行docker login
+        with:  # 配置dockerhub的认证，在Github项目主页 【Settings】 -> 【Secrets】 添加对应变量 DOCKERHUB_USERNAME 和 DOCKERHUB_TOKEN
+          username: ${{ secrets.DOCKERHUB_USERNAME }}  
+          password: ${{ secrets.DOCKERHUB_TOKEN }}  # https://hub.docker.com/settings/security 在这儿创建 token
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3  # 抽取项目信息，主要是镜像的tag
+        with:
+          images: yourwit/all-url-uploader ## 填自己在 https://hub.docker.com/repositories 创建的仓库名称
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2 # docker build & push
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
