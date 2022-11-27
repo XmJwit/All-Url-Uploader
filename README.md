@@ -103,6 +103,16 @@ python3 bot.py
 </pre>
 </p>
 </details>
+
+<details>
+<summary>Deploy With Docker</summary>
+<p>
+<pre>
+docker push yourwit/all-url-uploader:tagname
+</pre>
+</p>
+</details>
+
 <br>
 <h1>⁉ Questions</h1>
 
